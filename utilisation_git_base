@@ -9,4 +9,9 @@ git commit -m 'Ajout de ex2'	//ajout d'un commentaire de modification
 git push origin master	//envoie des fichiers sur le remote "origin" dans la branche master
 git pull origin master //mise à jour sur l'appareil des donnees server
 
+
 push ->envoie vers server
+
+pull -> recuperation des infos servers
+
+
