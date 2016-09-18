@@ -1,0 +1,10 @@
+cd dossier_courant_projet
+git init
+git remote add origin https://github.com/romainwg/projet_info_scheme
+gedit ex2
+git add .
+(ou ?)
+git add ex2
+git commit -m 'Ajout de ex2'
+git push origin master
+
