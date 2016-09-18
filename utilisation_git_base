@@ -1,10 +1,13 @@
-cd dossier_courant_projet
-git init
-git remote add origin https://github.com/romainwg/projet_info_scheme
-gedit ex2
-git add .
+cd dossier_courant_projet	//on se place dans le dossier courant
+git init	//On initialise git
+git remote add origin https://github.com/romainwg/projet_info_scheme	//ajout de l'origin remote
+gedit ex2	//creation d'un fichier
+git add .	//ajout du fichier
 (ou ?)
-git add ex2
-git commit -m 'Ajout de ex2'
-git push origin master
+git add ex2	//ajout du fichier
+git commit -m 'Ajout de ex2'	//ajout d'un commentaire de modification
+git push origin master	//envoie des fichiers sur le remote "origin" dans la branche master
+
+
+git pull origin master //mise à jour sur l'appareil des donnees server
 
