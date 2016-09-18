@@ -11,3 +11,5 @@ git push origin master	//envoie des fichiers sur le remote "origin" dans la bran
 
 git pull origin master //mise à jour sur l'appareil des donnees server
 
+pull -> recuperation des infos servers
+
