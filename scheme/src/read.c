@@ -294,7 +294,6 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 
 object sfs_read( char *input, uint *here ) {
     
-    printf("Readatom avant desespacement");
 
     if ( input[*here] == '(' ) {
         if ( input[(*here)+1] == ')' ) {
@@ -307,6 +306,8 @@ object sfs_read( char *input, uint *here ) {
         }
     }
     else {
+        
+            printf("sfs Readatom \n");
         return sfs_read_atom( input, here );
     }
 }
@@ -315,6 +316,8 @@ object sfs_read( char *input, uint *here ) {
 // et retourne l'object c qui represente cet atome
 // ou retourne null si erreur*/
 object sfs_read_atom( char *input, uint *here ) {
+    
+    printf("sfs Readatom intérieur\n");
 
     object atom = NULL;
         
@@ -326,6 +329,8 @@ object sfs_read_atom( char *input, uint *here ) {
         (*here)++;
     }
     
+    
+    printf("sfs Readatom isspace useful char : %c \n", input[*here]);
   /*  if (atom==NULL) {
         printf("Error read atom : useable input doesn't exist");
         return atom; Question
@@ -335,9 +340,12 @@ object sfs_read_atom( char *input, uint *here ) {
     
     type_input=typeInput(input,here);
     
-    switch (type_input) { /*définir le type avant*/
+    printf("sfs Readatom typeInput trouvé : %d \n",type_input);
+    
+    switch (type_input) {
             
         case SFS_NUMBER :
+            printf("sfs Readatom SFS NUMBER \n",type_input);
             atom = read_atom_number(input,here);
             
         case SFS_BOOLEAN :

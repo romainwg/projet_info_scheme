@@ -14,12 +14,30 @@
 
 void sfs_print_atom( object o ) {
     
-    printf("Coucou");
+    switch (o->type) {
+        case SFS_NUMBER :
+            printf("%d",o->this.number);
+            
+        case SFS_BOOLEAN :
+            
+            
+        case SFS_CHARACTER :
+            printf("%c",o->this.character);
+            
+        case SFS_STRING :
+            printf("%s",o->this.string);
+            
+        case SFS_SYMBOL :
+            printf("%s",o->this.symbol);
+    }
     
     return;
 }
 
 void sfs_print_pair( object o ) {
+    
+    sfs_print( (o->this.pair).car );
+    sfs_print( (o->this.pair).cdr );
 
     return;
 }
