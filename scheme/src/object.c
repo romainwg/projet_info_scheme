@@ -30,9 +30,3 @@ object make_nil( void ) {
     return t;
 }
 
-object make_integer( int valeur ) {
-    
-    object o;
-    
-    return o;
-}

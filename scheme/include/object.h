@@ -17,6 +17,7 @@ extern "C" {
 
 #include "number.h"
 
+
 typedef struct object_t {
 
     uint type;
@@ -38,7 +39,7 @@ typedef struct object_t {
     } this;
 
 } *object;
-    
+
 
 object make_object( uint type );
 object make_nil( void );

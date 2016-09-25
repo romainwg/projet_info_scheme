@@ -1,3 +1,4 @@
+
 /**
  * @file read.c
  * @author François Cayre <cayre@yiking.(null)>
@@ -10,11 +11,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include <readline/readline.h>
-#include <readline/history.h>
-
 #include "read.h"
-#include "read_atom.h"
 
 
 
@@ -120,7 +117,8 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 
     do {
         ret = NULL;
-        chunk = NULL;
+        chunk=k;
+        memset( chunk, '\0', BIGSTRING );
 
         /* si en mode interactif*/
         if ( stdin == fp ) {
@@ -144,12 +142,13 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
             }
 
             /*saisie de la prochaine ligne à ajouter dans l'input*/
-            chunk = readline( sfs_prompt );
+            printf("%s",sfs_prompt);
+            ret = fgets( chunk, BIGSTRING, fp );
+            if (ret && chunk[strlen(chunk)-1] == '\n') chunk[strlen(chunk)-1] = '\0';
+
         }
         /*si en mode fichier*/
         else {
-            chunk=k;
-            memset( chunk, '\0', BIGSTRING );
             ret = fgets( chunk, BIGSTRING, fp );
 
             if ( NULL == ret ) {
@@ -285,15 +284,11 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
     /* Suppression des espaces restant a la fin de l'expression, notamment le dernier '\n' */
     while (isspace(input[strlen(input)-1])) input[strlen(input)-1] = '\0';
 
-    if(stdin == fp) {
-        add_history( input );
-    }
     return S_OK;
 }
 
 
 object sfs_read( char *input, uint *here ) {
-    
 
     if ( input[*here] == '(' ) {
         if ( input[(*here)+1] == ')' ) {
@@ -306,69 +301,19 @@ object sfs_read( char *input, uint *here ) {
         }
     }
     else {
-        
-            printf("sfs Readatom \n");
         return sfs_read_atom( input, here );
     }
 }
-/*
-// lit un atome dans la chaine input a partir *here
-// et retourne l'object c qui represente cet atome
-// ou retourne null si erreur*/
+
 object sfs_read_atom( char *input, uint *here ) {
-    
-    printf("sfs Readatom intérieur\n");
 
     object atom = NULL;
-        
-/*    Va appeler les différentes fonction de read_atom.c pour définir si c'est un symbole, une chaine etc... */
-    
-    
-    
-    while ( isspace(input[*here]) ) {
-        (*here)++;
-    }
-    
-    
-    printf("sfs Readatom isspace useful char : %c \n", input[*here]);
-  /*  if (atom==NULL) {
-        printf("Error read atom : useable input doesn't exist");
-        return atom; Question
-    } */
-    
-    uint type_input;
-    
-    type_input=typeInput(input,here);
-    
-    printf("sfs Readatom typeInput trouvé : %d \n",type_input);
-    
-    switch (type_input) {
-            
-        case SFS_NUMBER :
-            printf("sfs Readatom SFS NUMBER \n",type_input);
-            atom = read_atom_number(input,here);
-            
-        case SFS_BOOLEAN :
-            atom = read_atom_boolean(input,here);
-            
-        case SFS_CHARACTER :
-            atom = read_atom_character(input,here);
-            
-        case SFS_STRING :
-            atom = read_atom_chaine(input,here);
-            
-        case SFS_SYMBOL :
-            atom = read_atom_symbol(input,here);
-            
-        case SFS_NIL :
-            atom = read_atom_empty(input,here);
-    }
 
     return atom;
 }
 
 object sfs_read_pair( char *stream, uint *i ) {
-    
+
     object pair = NULL;
 
     return pair;
