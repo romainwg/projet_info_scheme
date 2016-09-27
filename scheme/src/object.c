@@ -30,3 +30,9 @@ object make_nil( void ) {
     return t;
 }
 
+object make_integer( int valeur ) {
+    
+    object o = make_object(SFS_NUMBER);
+    o->this.number.this.integer = valeur;
+    return o;
+}

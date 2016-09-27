@@ -12,34 +12,28 @@
 
 uint typeInput(char *input, uint *here) {
     
-    printf("sfs typeInput début \n");
-    
-    uint type_input = 0;
+    uint type_input=1;
 
-    char first_char=NULL;
-    first_char=input[*here];
+    char first_char=input[*here];
     
-    printf("sfs typeInput récupération char : %c \n",first_char);
+ /*   printf("sfs typeInput récupération char : %c \n",first_char); */
     
-    if (isdigit(first_char) || first_char=='+' || first_char=='-') {
+    /* NUMBER */
+    
+    char *p_end;
+    strtol(input + *here, &p_end, 10);
+    
+    if ( isspace(p_end[0]) || iscntrl(p_end[0]) ) {
         type_input=SFS_NUMBER;
     }
     
-  /*  else if (first_char=="'") {
-        
-        type_input=SFS_STRING;
+    /* BOOLEAN & SYMBOL */
+    
+    else {
+        WARNING_MSG("TYPE_ERROR : not a readable type");
     }
     
-    else if (first_char[0]=='#') {
-        if (strcmp(first_char,"#d")==0) { /* Bug avec le "\"
-            
-            type_input=SFS_SYMBOL;
-        }
-        
-    }
-     */
-    
-    printf("type_input = %d \n",type_input);
+   /* printf("type_input = %d \n",type_input); */
     
     return type_input;
 }
@@ -51,11 +45,18 @@ object read_atom_number(char *input, uint *here) {
     
     object atom = NULL;
     
-    atom = make_object(SFS_NUMBER);
+    num atom_number;
     
+    /* Ici, tous les nombres seront des entiers */
     
+    atom_number.numtype = NUM_INTEGER ;
     
-    atom = make_integer(
+    /* On stocke le nombre */
+    
+    char * p_end=NULL; 
+    atom_number.this.integer = strtol(input + *here, &p_end, 10);
+    
+    atom = make_integer( atom_number.this.integer );
     
     return atom;
 }
@@ -81,8 +82,8 @@ object read_atom_character(char *input,uint *here){
     object atom = NULL;
     
     atom = make_object(SFS_CHARACTER);
+
     
-    /*object o = make_integer(5);*/
     
     return atom;
 }
