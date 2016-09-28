@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 #include "number.h"
-
+#include <ctype.h>
 
 typedef struct object_t {
 
@@ -39,10 +39,16 @@ typedef struct object_t {
     } this;
 
 } *object;
-
+    
 
 object make_object( uint type );
 object make_nil( void );
+object make_integer( int valeur );
+object make_string ( char* chaine );
+object make_character ( char character );
+object make_boolean ( char* boolean );
+object make_symbol ( char* symbol );
+
 
 #define SFS_NUMBER       0x00
 #define SFS_CHARACTER    0x01
@@ -51,6 +57,7 @@ object make_nil( void );
 #define SFS_NIL          0x04
 #define SFS_BOOLEAN      0x05
 #define SFS_SYMBOL       0x06
+#define SFS_NOTYPE       0x07
 
 
 extern object nil;

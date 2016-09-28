@@ -36,3 +36,31 @@ object make_integer( int valeur ) {
     o->this.number.this.integer = valeur;
     return o;
 }
+
+object make_string ( char* chaine ) {
+    
+    object o = make_object(SFS_STRING);
+    
+    return o;
+}
+
+object make_character ( char character ) {
+    
+    object o = make_object(SFS_CHARACTER);
+    
+    return o;
+}
+
+object make_boolean ( char* boolean ) {
+    
+    object o = make_object(SFS_BOOLEAN);
+    
+    return o;
+}
+
+object make_symbol ( char* symbol ) {
+    
+    object o = make_object(SFS_BOOLEAN);
+    
+    return o;
+}

@@ -344,6 +344,9 @@ object sfs_read_atom( char *input, uint *here ) {
     
     switch (type_input) {
             
+        case SFS_NOTYPE:
+            return NULL;
+            
         case SFS_NUMBER :
             return read_atom_number(input,here);
             
