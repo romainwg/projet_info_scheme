@@ -16,13 +16,6 @@ extern "C" {
 #include <stdio.h>
 #include "object.h"
   
-/* vérification d'un special initial */
-
-int is_special_initial(char input);
-
-/*Le type de l'entrée clavier*/
-
-uint typeInput(char *input, uint *here);
 
 /*Les différents types d'atome*/
 

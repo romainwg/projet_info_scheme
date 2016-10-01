@@ -43,9 +43,10 @@ typedef struct object_t {
 
 object make_object      (   uint type       );
 object make_nil         (   void            );
+object make_pair        (   void            );
 object make_integer     (   int valeur      );
 object make_string      (   char* chaine    );
-object make_character   (   char character  );
+object make_character   (   char* character );
 object make_boolean     (   char* boolean   );
 object make_symbol      (   char* symbol    );
 
@@ -61,6 +62,8 @@ object make_symbol      (   char* symbol    );
 
 
 extern object nil;
+extern object true;
+extern object false;
 
 #ifdef __cplusplus
 }

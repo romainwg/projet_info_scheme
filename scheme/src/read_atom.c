@@ -8,93 +8,17 @@
 */
 
 #include "read_atom.h"
+#include "aux_read.h"
 
-int is_special_initial(char input) {
-    
-    char special_initial[14] = "!$%&*/:<=>?^_~";
-    
-    int i;
-    for ( i=0 ; i<14 ; i++ ) {
-        
-        if ( input == special_initial[i] ) {
-            
-            return 1;
-        }
-    }
-    
-    return 0;
-}
-
-uint typeInput(char *input, uint *here) {
-    
-    uint type_input=SFS_NOTYPE;
-
-    char first_char=input[*here];
-    
-  /* printf("sfs typeInput récupération char : %c \n",first_char);*/
-    
-    /* NUMBER */
-    
-    char *p_end;
-    strtol(input + *here, &p_end, 10);
-    
-    if ( isspace(p_end[0]) || iscntrl(p_end[0]) ) {
-        
-        return SFS_NUMBER;
-    }
-    
-    /* STRING */
-    
-    char guillemet = '\"' ;
-    
-    if ( first_char == guillemet ) {
-
-        return SFS_STRING;
-    }
-    
-    
-    /* BOOLEAN - CHARACTER */
-    
-    if ( input[*here] == '#' ) {
-        
-        if ( ( input[*here+1] == 't' || input[*here+1] == 'f' ) && isgraph(input[*here+2]) == 0 ) {
-            
-            return SFS_BOOLEAN;
-        }
-            
-            
-        else if ( input[*here+1] == '\\' && isgraph(input[*here+2]) != 0) {
-                
-            return SFS_CHARACTER;
-        }
-    }
-    
-    /* SYMBOL */
-    
-    if ( isalpha(input[*here]) != 0 || is_special_initial(input[*here]) == 1 ) {
-        
-        return SFS_SYMBOL;
-    }
-    
-    /* NOT A READABLE TYPE */
-    
-    else {
-        WARNING_MSG("TYPE_ERROR : not a readable type");
-    }
-    
-    return type_input;
-}
-
-
-/* Fonctions de read_atom */
+/* FONCTIONS READ_ATOM */
 
 /* READ ATOM NUMBER */
 /* Tous les nombres sont considérés comme entier */
 /* On stocke le nombre dans atom_number */
-/* Make_integer crée l'entier et retourne l'atome */
+/* Make_integer crée l'entier et retourne l'object atom sinon si erreur NULL */
 
 
-object read_atom_number(char *input, uint *here) {
+object read_atom_number(char * input, uint *here) {
     
     object atom = NULL;
     
@@ -104,6 +28,8 @@ object read_atom_number(char *input, uint *here) {
     char * p_end=NULL;
     atom_number.this.integer = strtol(input + *here, &p_end, 10);
     
+    DEBUG_MSG("read atom number %d",atom_number.this.integer);
+    
     /* gestion des erreurs à revoir !!!
      
      if (  p_end[0] != ' ' ) {
@@ -112,17 +38,20 @@ object read_atom_number(char *input, uint *here) {
      return NULL;
      } */
     
+    *here = *here + size_number( atom_number.this.integer );
+    
+    DEBUG_MSG("read atom number here %d",*here);
+    
     atom = make_integer( atom_number.this.integer );
     
     return atom;
 }
 
-/*
-// sachant que le prochain char edans la chaine est un char,
-// lit ce char dans la chaine input a partir *here,
-// avance juste apres
-// et retourne l'object c qui represente cet atome
-// ou retourne null si erreur */
+
+/* READ ATOM CHAINE */
+/* Lecture de la chaîne à partir de *here */
+/* On stocke la chaîne dans la variable chaine */
+/* Make_string crée la chaîne et retourne l'object atom sinon si erreur NULL */
 
 object read_atom_chaine(char *input, uint *here){
     
@@ -162,13 +91,18 @@ object read_atom_chaine(char *input, uint *here){
     return atom;
 }
 
+/* READ ATOM CHAINE */
+/* Lecture de la chaîne à partir de *here */
+/* On stocke la chaîne dans la variable character */
+/* Make_character crée la chaîne et retourne l'object atom sinon si erreur NULL */
+
 object read_atom_character(char *input,uint *here){
     
     object atom = NULL;
-    
-    atom = make_object(SFS_CHARACTER);
 
+    char* character = NULL;
 
+    atom = make_character(character);
     
     return atom;
 }
@@ -177,7 +111,9 @@ object read_atom_boolean(char *input, uint *here){
     
     object atom = NULL;
     
-    atom = make_object(SFS_BOOLEAN);
+    char* boolean = NULL;
+    
+    atom = make_boolean(boolean);
     
     return atom;
 }
@@ -186,7 +122,9 @@ object read_atom_symbol(char *input, uint *here){
     
     object atom = NULL;
     
-    atom = make_object(SFS_SYMBOL);
+    char* symbol = NULL;
+    
+    atom = make_symbol(symbol);
     
     return atom;
 }
@@ -195,7 +133,7 @@ object read_atom_empty(char *input, uint *here){
     
     object atom = NULL;
     
-    atom = make_object(SFS_NIL);
+    atom = make_nil();
     
     return atom;
 }

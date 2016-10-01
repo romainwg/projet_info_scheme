@@ -15,6 +15,7 @@
 
 #include "read.h"
 #include "read_atom.h"
+#include "aux_read.h"
 
 
 
@@ -294,6 +295,9 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 
 object sfs_read( char *input, uint *here ) {
     
+    while ( isspace(input[*here]) ) {
+        (*here)++;
+    }
 
     if ( input[*here] == '(' ) {
         if ( input[(*here)+1] == ')' ) {
@@ -307,8 +311,10 @@ object sfs_read( char *input, uint *here ) {
     }
     else {
         
-        /*    printf("sfs Readatom \n"); */
+        DEBUG_MSG("sfs read : case read atom");
         return sfs_read_atom( input, here );
+        
+
     }
 }
 /*
@@ -323,7 +329,7 @@ object sfs_read_atom( char *input, uint *here ) {
         
 /*    Va appeler les différentes fonction de read_atom.c pour définir si c'est un symbole, une chaine etc... */
     
-    
+    DEBUG_MSG("sfs read atom begin");
     
     while ( isspace(input[*here]) ) {
         (*here)++;
@@ -340,6 +346,8 @@ object sfs_read_atom( char *input, uint *here ) {
     
     type_input=typeInput(input,here);
     
+    DEBUG_MSG("sfs read atom : next typeinput");
+    
  /*   printf("sfs Readatom typeInput trouvé : %d \n",type_input); */
     
     switch (type_input) {
@@ -348,7 +356,12 @@ object sfs_read_atom( char *input, uint *here ) {
             return NULL;
             break;
             
+        case SFS_PAIR:
+            return sfs_read(input,here);
+            break;
+            
         case SFS_NUMBER :
+            DEBUG_MSG("sfs read atom : case sfs number");
             return read_atom_number(input,here);
             break;
             
@@ -378,12 +391,33 @@ object sfs_read_atom( char *input, uint *here ) {
 
 object sfs_read_pair( char *input, uint *here ) {
     
+    while ( isspace(input[*here]) ) {
+        (*here)++;
+    }
+    
+    DEBUG_MSG("sfs read pair %c",input[*here]);
+    
     object pair = NULL;
+    pair = make_pair();
     
     pair->this.pair.car = sfs_read( input , here ) ;
     
+    DEBUG_MSG("sfs read pair : after car %d", *here);
     
+    while ( isspace(input[*here]) ) {
+        (*here)++;
+    }
+    
+    if ( input[*here] == ')' ) {
+        
+        pair->this.pair.cdr = make_nil();
+        return pair;
+    }
 
-    return pair;
+    else {
+        pair->this.pair.cdr = sfs_read( input, here );
+    }
+    
+    return NULL;
 }
 
