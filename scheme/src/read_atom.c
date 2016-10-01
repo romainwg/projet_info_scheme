@@ -9,6 +9,21 @@
 
 #include "read_atom.h"
 
+int is_special_initial(char input) {
+    
+    char special_initial[14] = "!$%&*/:<=>?^_~";
+    
+    int i;
+    for ( i=0 ; i<14 ; i++ ) {
+        
+        if ( input == special_initial[i] ) {
+            
+            return 1;
+        }
+    }
+    
+    return 0;
+}
 
 uint typeInput(char *input, uint *here) {
     
@@ -16,7 +31,7 @@ uint typeInput(char *input, uint *here) {
 
     char first_char=input[*here];
     
-   printf("sfs typeInput récupération char : %c \n",first_char);
+  /* printf("sfs typeInput récupération char : %c \n",first_char);*/
     
     /* NUMBER */
     
@@ -30,24 +45,42 @@ uint typeInput(char *input, uint *here) {
     
     /* STRING */
     
-    char apostrophe = '\'' ;
-    printf("ye suis là: %c \n",first_char);
+    char guillemet = '\"' ;
     
-    if ( first_char==apostrophe ) {
+    if ( first_char == guillemet ) {
 
         return SFS_STRING;
     }
     
+    
     /* BOOLEAN - CHARACTER */
     
-    /*if ( strcmp(input[*here],))*/
+    if ( input[*here] == '#' ) {
         
+        if ( ( input[*here+1] == 't' || input[*here+1] == 'f' ) && isgraph(input[*here+2]) == 0 ) {
+            
+            return SFS_BOOLEAN;
+        }
+            
+            
+        else if ( input[*here+1] == '\\' && isgraph(input[*here+2]) != 0) {
+                
+            return SFS_CHARACTER;
+        }
+    }
+    
+    /* SYMBOL */
+    
+    if ( isalpha(input[*here]) != 0 || is_special_initial(input[*here]) == 1 ) {
+        
+        return SFS_SYMBOL;
+    }
+    
+    /* NOT A READABLE TYPE */
     
     else {
         WARNING_MSG("TYPE_ERROR : not a readable type");
     }
-    
-   /* printf("type_input = %d \n",type_input); */
     
     return type_input;
 }
@@ -60,6 +93,7 @@ uint typeInput(char *input, uint *here) {
 /* On stocke le nombre dans atom_number */
 /* Make_integer crée l'entier et retourne l'atome */
 
+
 object read_atom_number(char *input, uint *here) {
     
     object atom = NULL;
@@ -67,16 +101,16 @@ object read_atom_number(char *input, uint *here) {
     num atom_number;
     atom_number.numtype = NUM_INTEGER ;
     
-    char * p_end=NULL; 
+    char * p_end=NULL;
     atom_number.this.integer = strtol(input + *here, &p_end, 10);
     
-    /* gestion des erreurs à revoir !!! 
+    /* gestion des erreurs à revoir !!!
      
      if (  p_end[0] != ' ' ) {
-        
-        WARNING_MSG("TYPE_ERROR : not a number");
-        return NULL;
-    } */
+     
+     WARNING_MSG("TYPE_ERROR : not a number");
+     return NULL;
+     } */
     
     atom = make_integer( atom_number.this.integer );
     
@@ -95,17 +129,32 @@ object read_atom_chaine(char *input, uint *here){
     object atom = NULL;
     
     char* chaine=NULL;
-    int i=0;
     
-    while ( chaine[i] != '\'' ) {
-        chaine[i-1]=input[*here + i] //A COMPLETER
+    int i=0;
+    int current_here = (*here)+1;
+    
+    if ( input[current_here] == '\"' ) {
+        
+        return NULL;
     }
     
+    while ( input[current_here] != '\"' && isalpha(input[current_here]) != 0 ) {
+        
+        chaine[i]=input[current_here];
+        current_here++;
+        i++;
+        
+    }
+    
+    if ( input[current_here] != '\"' ) {
+        WARNING_MSG("TYPE_ERROR : ");
+    }
     
     if (  chaine == NULL ) {
         
         WARNING_MSG("TYPE_ERROR : not a string");
         return NULL;
+        
     }
     
     atom = make_string(chaine);

@@ -41,13 +41,13 @@ typedef struct object_t {
 } *object;
     
 
-object make_object( uint type );
-object make_nil( void );
-object make_integer( int valeur );
-object make_string ( char* chaine );
-object make_character ( char character );
-object make_boolean ( char* boolean );
-object make_symbol ( char* symbol );
+object make_object      (   uint type       );
+object make_nil         (   void            );
+object make_integer     (   int valeur      );
+object make_string      (   char* chaine    );
+object make_character   (   char character  );
+object make_boolean     (   char* boolean   );
+object make_symbol      (   char* symbol    );
 
 
 #define SFS_NUMBER       0x00

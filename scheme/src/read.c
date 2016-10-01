@@ -346,32 +346,43 @@ object sfs_read_atom( char *input, uint *here ) {
             
         case SFS_NOTYPE:
             return NULL;
+            break;
             
         case SFS_NUMBER :
             return read_atom_number(input,here);
+            break;
             
         case SFS_BOOLEAN :
             return read_atom_boolean(input,here);
+            break;
             
         case SFS_CHARACTER :
             return read_atom_character(input,here);
+            break;
             
         case SFS_STRING :
             return read_atom_chaine(input,here);
+            break;
             
         case SFS_SYMBOL :
             return read_atom_symbol(input,here);
+            break;
             
         case SFS_NIL :
             return read_atom_empty(input,here);
+            break;
     }
 
     return atom;
 }
 
-object sfs_read_pair( char *stream, uint *i ) {
+object sfs_read_pair( char *input, uint *here ) {
     
     object pair = NULL;
+    
+    pair->this.pair.car = sfs_read( input , here ) ;
+    
+    
 
     return pair;
 }

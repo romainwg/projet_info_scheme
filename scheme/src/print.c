@@ -17,21 +17,24 @@ void sfs_print_atom( object o ) {
     switch (o->type) {
         case SFS_NUMBER :
             printf("%d",o->this.number.this.integer);
+            break;
             
         case SFS_BOOLEAN :
             printf("%s",o->this.symbol);
+            break;
             
         case SFS_CHARACTER :
             printf("%c",o->this.character);
+            break;
             
         case SFS_STRING :
             printf("%s",o->this.string);
+            break;
             
         case SFS_SYMBOL :
             printf("%s",o->this.symbol);
+            break;
     }
-    
-    return;
 }
 
 void sfs_print_pair( object o ) {
@@ -39,7 +42,6 @@ void sfs_print_pair( object o ) {
     sfs_print( (o->this.pair).car );
     sfs_print( (o->this.pair).cdr );
 
-    return;
 }
 
 void sfs_print( object o ) {
