@@ -16,18 +16,24 @@
 #include "object.h"
 
 
+    /* Supprimer les espaces */
+
+void SpaceCancel        ( char *input, uint *here   );
+
     
     /* vérification d'un special initial */
     
-    int is_special_initial(char input);
+int is_special_initial  ( char input                );
+
     
     /* Nombre de digits d'un nombre */
     
-    int size_number ( int valeur );
+int size_number         ( int valeur                );
+
     
     /*Le type de l'entrée clavier*/
     
-    uint typeInput(char *input, uint *here);
+uint typeInput          ( char *input, uint *here   );
 
 
 

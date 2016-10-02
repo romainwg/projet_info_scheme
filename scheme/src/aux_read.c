@@ -9,6 +9,14 @@
 
 #include "aux_read.h"
 
+/* SUPPRIMER LES ESPACES */
+
+void SpaceCancel( char *input, uint *here ) {
+    
+    while ( isspace(input[*here]) ) {
+        (*here)++;
+    }
+}
 
 /* RECHERCHE D'UN SPECIAL INITIAL */
 
@@ -28,7 +36,7 @@ int is_special_initial(char input) {
     return 0;
 }
 
-/* Calcul du nombre de chiffres d'un nombre */
+/* CALCUL DU NOMBRE DE CHIFFRES */
 
 int size_number ( int valeur ) {
     
