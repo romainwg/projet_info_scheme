@@ -72,7 +72,7 @@ uint typeInput(char *input, uint *here) {
     char *p_end;
     strtol(input + *here, &p_end, 10);
     
-    if ( isspace(p_end[0]) || iscntrl(p_end[0]) ) {
+    if ( isspace(p_end[0]) || iscntrl(p_end[0]) || p_end[0] == ')') {
         
         return SFS_NUMBER;
     }

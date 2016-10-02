@@ -416,6 +416,7 @@ object sfs_read_pair( char *input, uint *here ) {
 
     else {
         pair->this.pair.cdr = sfs_read( input, here );
+        return pair;
     }
     
     return NULL;
