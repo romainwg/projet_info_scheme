@@ -24,7 +24,6 @@ object read_atom_boolean(   char *input,    uint *here);
 object read_atom_character( char *input,    uint *here);
 object read_atom_chaine(    char *input,    uint *here);
 object read_atom_symbol(    char *input,    uint *here);
-object read_atom_empty(     char *input,    uint *here);
 
 #ifdef __cplusplus
 }

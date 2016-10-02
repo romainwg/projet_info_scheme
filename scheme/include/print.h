@@ -18,19 +18,10 @@ extern "C" {
 #include "object.h"
 
 
-void sfs_print( object );
-//La fonction print est le point d’entrée de l’affichage du résultat de votre interpréteur.
-//Son rôle est de convertir un arbre syntaxique en chaîne de caractères et de l’afficher dans la sortie standard
+void sfs_print      ( object o, uint *root  );
 
-//SI type == SFS_PAIR (3) -> print pair
-//ELSE -> print atom
-
-
-void sfs_print_atom( object );
-//Conversion et écriture de l'atome
-//Switch des types et écriture en conséquence
-
-void sfs_print_pair( object );
+void sfs_print_atom ( object o              );
+void sfs_print_pair ( object o, uint *root  );
 
 #ifdef __cplusplus
 }

@@ -25,7 +25,7 @@ typedef struct object_t {
     union {
 
         num              number;
-        char             character;
+        string           character;
         string           string;
         string           symbol;
 

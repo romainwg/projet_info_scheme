@@ -44,8 +44,7 @@ object make_pair( void ) {
 
 object make_integer( int valeur ) {
     
-    object o=NULL;
-    
+    object o = NULL;
     o = make_object(SFS_NUMBER);
     
     o->this.number.this.integer = valeur;
@@ -55,28 +54,42 @@ object make_integer( int valeur ) {
 
 object make_string ( char* chaine ) {
     
-    object o = make_object(SFS_STRING);
+    object o = NULL;
+    o = make_object(SFS_STRING);
+    
+    strcpy (o->this.string, chaine);
     
     return o;
 }
 
 object make_character ( char* character ) {
     
-    object o = make_object(SFS_CHARACTER);
+    object o = NULL;
+    o = make_object(SFS_CHARACTER);
+    
+    DEBUG_MSG("je suis là");
+    
+    strcpy (o->this.character, character);
     
     return o;
 }
 
 object make_boolean ( char* boolean ) {
     
-    object o = make_object(SFS_BOOLEAN);
+    object o = NULL;
+    o = make_object(SFS_BOOLEAN);
+    
+    strcpy(o->this.symbol,boolean);
     
     return o;
 }
 
 object make_symbol ( char* symbol ) {
     
-    object o = make_object(SFS_BOOLEAN);
+    object o = NULL;
+    o = make_object(SFS_BOOLEAN);
+    
+    strcpy(o->this.symbol,symbol);
     
     return o;
 }

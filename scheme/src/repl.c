@@ -42,6 +42,7 @@ int main ( int argc, char *argv[] ) {
 
     char     input[BIGSTRING];
     uint     here = 0;
+    uint     root = 1;
     object   output = NULL;
     object   sexpr = NULL;
     inter_mode mode;
@@ -89,6 +90,7 @@ int main ( int argc, char *argv[] ) {
     while ( 1 ) {
         input[0]='\0';
         here = 0;
+        root = 1;
         output = NULL;
         sexpr = NULL;
         uint Sexpr_err;
@@ -148,7 +150,7 @@ int main ( int argc, char *argv[] ) {
         }
 
         printf( "==> " );
-        sfs_print( output );
+        sfs_print( output , &root );
         printf( "\n" );
     }
 

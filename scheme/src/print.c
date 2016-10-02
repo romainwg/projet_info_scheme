@@ -12,54 +12,81 @@
 
 #include <stdio.h>
 
-#include <string.h>
-
-void sfs_print_atom( object obj ) {
+void sfs_print_atom( object o ) {
     
-	switch ()
-	{
-		case SFS_NUMBER:
-			printf("%d",obj->this.number.this.integer);
-			break;
-		case SFS_CHARACTER:
-			printf("%c",obj->this.character);
-			break;
-		case SFS_STRING:
-			printf("%s",obj->this.string);
-			break;
-		case SFS_BOOLEAN:
-			printf("%s",obj->this.symbol);
-			break;
-		case SFS_SYMBOL:
-			printf("%s",obj->this.symbol);
-			break;
-		case SFS_NIL:
-			//NIL
-			//printf("");
-			break;		
-	}
+    switch (o->type) {
+        case SFS_NUMBER :
+            
+            printf("%d",o->this.number.this.integer);
+            break;
+            
+        case SFS_BOOLEAN :
+            
+            printf("%s",o->this.symbol);
+            break;
+            
+        case SFS_CHARACTER :
+            
+            /* if ( strcmp("#\\newline",o->this.character) == 0) {
+                printf("\n");
+            }
+            else if ( strcmp("#\\space",o->this.character) == 0) {
+                printf(" ");
+            } */
+            /* else { */
+                printf("%s",o->this.character);
+            /* } */
+            break;
+            
+        case SFS_STRING :
+            
+            printf("%s",o->this.string);
+            break;
+            
+        case SFS_SYMBOL :
+            
+            printf("%s",o->this.symbol);
+            break;
+    }
+}
+
+void sfs_print_pair( object o , uint *root) {
+    
+    if ( ( (o->this.pair).cdr->type == SFS_NIL && (o->this.pair).car->type == SFS_PAIR ) || ( (o->this.pair).cdr->type == SFS_PAIR && (o->this.pair).car->type == SFS_PAIR ) ) {
+        printf("(");
+    }
+    
+    sfs_print( (o->this.pair).car , root);
+    
+    if ( (o->this.pair).cdr->type != SFS_NIL ) {
+        printf(" ");
+    }
+
+    sfs_print( (o->this.pair).cdr , root);
+    
+    if ( (o->this.pair).cdr->type == SFS_NIL ) {
+        printf(")");
+    }
 
 }
 
-void sfs_print_pair( object obj ) {
-	
-	//print de l'objet contenue à gauche puis à droite de l'arbre
-	sfs_print(obj->this.pair.car);
-	sfs_print(obj->this.pair.cdr);
 
-}
+void sfs_print( object o , uint* root ) {
 
-void sfs_print( object obj ) {
-	
-	//l'object est une pair : print_pair
-	//sinon print_atom
-	if(obj->this.type == SFS_PAIR)
-	{
-		sfs_print_pair(obj);
-	}
-	else
-	{
-		sfs_print_atom(obj);
-	}
+
+    if ( SFS_PAIR == o->type ) {
+        
+        if (*root == 1) {
+            *root = 0;
+            printf("(");
+        }
+        
+        sfs_print_pair( o , root);
+    }
+    
+    else {
+        
+        sfs_print_atom( o );
+    }
 
 }

@@ -36,6 +36,7 @@ int is_special_initial(char input) {
     return 0;
 }
 
+
 /* CALCUL DU NOMBRE DE CHIFFRES */
 
 int size_number ( int valeur ) {
@@ -52,6 +53,7 @@ int size_number ( int valeur ) {
     return strlen(char_int);
 }
 
+
 /* CARACTERISATION DU TYPE DE L'ATOME */
 /* Retourne le type selon les premiers caractères sinon si erreur NOTYPE */
 
@@ -60,19 +62,6 @@ uint typeInput(char *input, uint *here) {
     uint type_input=SFS_NOTYPE;
     
     char first_char=input[*here];
-    
-    DEBUG_MSG("sfs typeInput : begin");
-    
-    /* printf("sfs typeInput récupération char : %c \n",first_char);*/
-    
-    /* PAIR */
-    
-    if (input[*here] ==  '(') {
-        
-        DEBUG_MSG("SFS PAIR");
-        
-        return SFS_PAIR;
-    }
     
     
     /* NUMBER */
@@ -84,6 +73,7 @@ uint typeInput(char *input, uint *here) {
         
         return SFS_NUMBER;
     }
+    
     
     /* STRING */
     
@@ -99,7 +89,7 @@ uint typeInput(char *input, uint *here) {
     
     if ( input[*here] == '#' ) {
         
-        if ( ( input[*here+1] == 't' || input[*here+1] == 'f' ) && isgraph(input[*here+2]) == 0 ) {
+        if ( ( input[*here+1] == 't' || input[*here+1] == 'f' ) && (isgraph(input[*here+2]) == 0 || input[*here+2] == ')' ) ) {
             
             return SFS_BOOLEAN;
         }

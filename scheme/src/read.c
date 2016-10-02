@@ -308,11 +308,7 @@ object sfs_read( char *input, uint *here ) {
         }
     }
     else {
-        
-        DEBUG_MSG("sfs read : case read atom");
         return sfs_read_atom( input, here );
-        
-
     }
 }
 
@@ -326,17 +322,12 @@ object sfs_read( char *input, uint *here ) {
 
 object sfs_read_atom( char *input, uint *here ) {
 
-
     object atom = NULL;
-    
-    DEBUG_MSG("sfs read atom begin");
     
     SpaceCancel(input,here);
     
     uint type_input;
     type_input=typeInput(input,here);
-    
-    DEBUG_MSG("sfs read atom : next typeinput");
     
     switch (type_input) {
             
@@ -349,7 +340,6 @@ object sfs_read_atom( char *input, uint *here ) {
             break;
             
         case SFS_NUMBER :
-            DEBUG_MSG("sfs read atom : case sfs number");
             return read_atom_number(input,here);
             break;
             
@@ -369,9 +359,6 @@ object sfs_read_atom( char *input, uint *here ) {
             return read_atom_symbol(input,here);
             break;
             
-        case SFS_NIL :
-            return read_atom_empty(input,here);
-            break;
     }
 
     return atom;
@@ -390,40 +377,25 @@ object sfs_read_pair( char *input, uint *here ) {
     
     SpaceCancel(input,here);
     
-    DEBUG_MSG("sfs read pair %c",input[*here]);
-    
     object pair = NULL;
     pair = make_pair();
     
-    pair->this.pair.car = make_pair();
-    
-    pair->this.pair.car = sfs_read( input , here ) ;
-    
-    DEBUG_MSG("sfs read pair : after car %d", *here);
+    pair->this.pair.car = sfs_read( input, here ) ;
     
     SpaceCancel(input,here);
-    
-    
     
     if ( input[*here] == ')' ) {
         
         pair->this.pair.cdr = make_nil();
-        return pair;
+        (*here)++;
     }
 
     else {
+
+        pair->this.pair.cdr = sfs_read_pair( input, here );
         
-        DEBUG_MSG("sfs read pair : before cdr");
-        
-        pair->this.pair.cdr = make_pair();
-        
-        pair->this.pair.cdr = sfs_read( input, here );
-        
-        return pair;
     }
     
-    DEBUG_MSG("sfs read pair : before cdr");
-    
-    return NULL;
+    return pair;
 }
 
