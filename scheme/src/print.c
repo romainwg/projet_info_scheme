@@ -34,17 +34,14 @@ void sfs_print_atom( object obj ) {
 			printf("%s",obj->this.symbol);
 			break;
 		case SFS_NIL:
-			//écriture de la parenthèse fermante en cas de liste vide
-			printf(")");
+			//NIL
+			//printf("");
 			break;		
 	}
 
 }
 
 void sfs_print_pair( object obj ) {
-	
-	//écriture de la parenthèse ouvrante
-	printf("(");
 	
 	//print de l'objet contenue à gauche puis à droite de l'arbre
 	sfs_print(obj->this.pair.car);

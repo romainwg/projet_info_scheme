@@ -29,10 +29,8 @@ void sfs_print( object );
 void sfs_print_atom( object );
 //Conversion et écriture de l'atome
 //Switch des types et écriture en conséquence
-//SI liste vide : écriture d'une parenthèse fermante
 
 void sfs_print_pair( object );
-//écriture d'une parenthèse ouvrante
 
 #ifdef __cplusplus
 }
