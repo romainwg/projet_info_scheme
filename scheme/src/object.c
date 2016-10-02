@@ -30,9 +30,53 @@ object make_nil( void ) {
     return t;
 }
 
+object make_pair( void ) {
+    
+    object o = NULL;
+    
+    o = make_object(SFS_PAIR);
+    
+    o->this.pair.car = NULL;
+    o->this.pair.cdr = NULL;
+    
+    return o;
+}
+
 object make_integer( int valeur ) {
     
-    object o = make_object(SFS_NUMBER);
+    object o=NULL;
+    
+    o = make_object(SFS_NUMBER);
+    
     o->this.number.this.integer = valeur;
+    
+    return o;
+}
+
+object make_string ( char* chaine ) {
+    
+    object o = make_object(SFS_STRING);
+    
+    return o;
+}
+
+object make_character ( char* character ) {
+    
+    object o = make_object(SFS_CHARACTER);
+    
+    return o;
+}
+
+object make_boolean ( char* boolean ) {
+    
+    object o = make_object(SFS_BOOLEAN);
+    
+    return o;
+}
+
+object make_symbol ( char* symbol ) {
+    
+    object o = make_object(SFS_BOOLEAN);
+    
     return o;
 }

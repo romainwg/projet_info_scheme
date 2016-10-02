@@ -15,6 +15,7 @@
 
 #include "read.h"
 #include "read_atom.h"
+#include "aux_read.h"
 
 
 
@@ -294,6 +295,7 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 
 object sfs_read( char *input, uint *here ) {
     
+    SpaceCancel(input, here);
 
     if ( input[*here] == '(' ) {
         if ( input[(*here)+1] == ')' ) {
@@ -307,69 +309,121 @@ object sfs_read( char *input, uint *here ) {
     }
     else {
         
-        /*    printf("sfs Readatom \n"); */
+        DEBUG_MSG("sfs read : case read atom");
         return sfs_read_atom( input, here );
+        
+
     }
 }
-/*
-// lit un atome dans la chaine input a partir *here
-// et retourne l'object c qui represente cet atome
-// ou retourne null si erreur*/
+
+/* SFS READ ATOM */
+ 
+/*  
+    lit un atome dans la chaine input a partir *here
+    et retourne l'object c qui represente cet atome
+    ou retourne null si erreur 
+*/
+
 object sfs_read_atom( char *input, uint *here ) {
-    
- /*   printf("sfs Readatom intérieur\n"); */
+
 
     object atom = NULL;
-        
-/*    Va appeler les différentes fonction de read_atom.c pour définir si c'est un symbole, une chaine etc... */
     
+    DEBUG_MSG("sfs read atom begin");
     
-    
-    while ( isspace(input[*here]) ) {
-        (*here)++;
-    }
-    
-    
- /*   printf("sfs Readatom isspace useful char : %c \n", input[*here]); */
-  /*  if (atom==NULL) {
-        printf("Error read atom : useable input doesn't exist");
-        return atom; Question
-    } */
+    SpaceCancel(input,here);
     
     uint type_input;
-    
     type_input=typeInput(input,here);
     
- /*   printf("sfs Readatom typeInput trouvé : %d \n",type_input); */
+    DEBUG_MSG("sfs read atom : next typeinput");
     
     switch (type_input) {
             
+        case SFS_NOTYPE:
+            return NULL;
+            break;
+            
+        case SFS_PAIR:
+            return sfs_read(input,here);
+            break;
+            
         case SFS_NUMBER :
+            DEBUG_MSG("sfs read atom : case sfs number");
             return read_atom_number(input,here);
+            break;
             
         case SFS_BOOLEAN :
             return read_atom_boolean(input,here);
+            break;
             
         case SFS_CHARACTER :
             return read_atom_character(input,here);
+            break;
             
         case SFS_STRING :
             return read_atom_chaine(input,here);
+            break;
             
         case SFS_SYMBOL :
             return read_atom_symbol(input,here);
+            break;
             
         case SFS_NIL :
             return read_atom_empty(input,here);
+            break;
     }
 
     return atom;
 }
 
-object sfs_read_pair( char *stream, uint *i ) {
+/* READ PAIR */
+
+/*
+    Lit une paire si input à *here est une paire
+    Crée un car et un cdr à la pair pour stocker l'object
+    Si fin de liste, crée un nil sinon continue de créer l'arbre object
+    retourne NULL si pas une paire 
+*/
+
+object sfs_read_pair( char *input, uint *here ) {
+    
+    SpaceCancel(input,here);
+    
+    DEBUG_MSG("sfs read pair %c",input[*here]);
     
     object pair = NULL;
+    pair = make_pair();
+    
+    pair->this.pair.car = make_pair();
+    
+    pair->this.pair.car = sfs_read( input , here ) ;
+    
+    DEBUG_MSG("sfs read pair : after car %d", *here);
+    
+    SpaceCancel(input,here);
+    
+    
+    
+    if ( input[*here] == ')' ) {
+        
+        pair->this.pair.cdr = make_nil();
+        return pair;
+    }
 
-    return pair;
+    else {
+        
+        DEBUG_MSG("sfs read pair : before cdr");
+        
+        pair->this.pair.cdr = make_pair();
+        
+        pair->this.pair.cdr = sfs_read( input, here );
+        
+        return pair;
+    }
+    
+    DEBUG_MSG("sfs read pair : before cdr");
+    
+    return NULL;
 }
 
