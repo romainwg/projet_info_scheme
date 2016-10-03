@@ -54,6 +54,7 @@ void sfs_print_atom( object o ) {
             
             printf("%s",o->this.symbol);
             break;
+
     }
 }
 
@@ -84,14 +85,30 @@ void sfs_print( object o , uint* root ) {
     if ( SFS_PAIR == o->type ) {
         
         if (*root == 1) {
+            
+            if (o->type == SFS_NIL) {
+                printf("()");
+            }
+            else printf("(");
+            
             *root = 0;
-            printf("(");
+            
         }
         
         sfs_print_pair( o , root);
     }
     
     else {
+        
+        if (*root == 1) {
+            
+            if (o->type == SFS_NIL) {
+                printf("()");
+            }
+            
+            *root = 0;
+            
+        }
         
         sfs_print_atom( o );
     }

@@ -292,13 +292,19 @@ object sfs_read( char *input, uint *here ) {
     
     SpaceCancel(input, here);
 
+    /* MODIFICATION TRAITEMENT D'UNE LISTE VIDE : on traitera les listes vides à l'intérieur plus tard */
+    
     if ( input[*here] == '(' ) {
-        if ( input[(*here)+1] == ')' ) {
-            *here += 2;
+        
+        (*here)++;
+        SpaceCancel(input,here);
+        
+        if ( input[(*here)] == ')' ) {
+            (*here)++;
             return nil;
         }
+        
         else {
-            (*here)++;
             return sfs_read_pair( input, here );
         }
     }

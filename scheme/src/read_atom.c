@@ -25,6 +25,10 @@ object read_atom_number(char * input, uint *here) {
     num atom_number;
     atom_number.numtype = NUM_INTEGER ;
     
+    if (input[*here] == '+') {
+        (*here)++;
+    }
+    
     char * p_end=NULL;
     atom_number.this.integer = strtol(input + *here, &p_end, 10);
     
