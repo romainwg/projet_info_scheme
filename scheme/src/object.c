@@ -22,12 +22,16 @@ object make_object( uint type ) {
 }
 
 object make_nil( void ) {
+    
+    if (nil == NULL) {
+        object t = make_object( SFS_NIL );
+        
+        t->this.special = t;
+        
+        return t;
+    }
+    else return nil;
 
-    object t = make_object( SFS_NIL );
-
-    t->this.special = t;
-
-    return t;
 }
 
 object make_pair( void ) {
@@ -62,32 +66,47 @@ object make_string ( char* chaine ) {
     return o;
 }
 
-object make_character ( char* character ) {
+object make_character ( char character ) {
     
     object o = NULL;
     o = make_object(SFS_CHARACTER);
     
-    DEBUG_MSG("je suis là");
-    
-    strcpy (o->this.character, character);
+    o->this.character = character;
     
     return o;
 }
 
-object make_boolean ( char* boolean ) {
+object make_boolean ( int b ) {
     
-    object o = NULL;
-    o = make_object(SFS_BOOLEAN);
+    if (b == FALSE) {
+        if (false == NULL) {
+            object o = NULL;
+            o = make_object(SFS_BOOLEAN);
+            o->this.special = o;
+            
+            return o;
+        }
+        else return false;
+    }
     
-    strcpy(o->this.symbol,boolean);
+    if (b == TRUE) {
+        if (true == NULL) {
+            object o = NULL;
+            o = make_object(SFS_BOOLEAN);
+            o->this.special = o;
+            
+            return o;
+        }
+        else return true;
+    }
     
-    return o;
+    return NULL;
 }
 
 object make_symbol ( char* symbol ) {
     
     object o = NULL;
-    o = make_object(SFS_BOOLEAN);
+    o = make_object(SFS_SYMBOL);
     
     strcpy(o->this.symbol,symbol);
     

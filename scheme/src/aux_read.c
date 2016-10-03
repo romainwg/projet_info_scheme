@@ -18,6 +18,31 @@ void SpaceCancel( char *input, uint *here ) {
     }
 }
 
+/* RECHERCHE FIN D'ATOM */
+
+int is_end_atom ( char input_char ) {
+    
+    if ( isspace(input_char) != 0 || iscntrl(input_char) != 0 || input_char == '(' || input_char == ')') {
+        return 1;
+    }
+    
+    else {
+        return 0;
+    }
+}
+
+int is_not_end_atom( char input_char ) {
+    
+    if ( isspace(input_char) == 0 || iscntrl(input_char) == 0 || input_char != '(' || input_char != ')') {
+        return 1;
+    }
+    
+    else {
+        return 0;
+    }
+}
+
+
 /* RECHERCHE D'UN SPECIAL INITIAL */
 
 int is_special_initial(char input) {
@@ -95,7 +120,7 @@ uint typeInput(char *input, uint *here) {
         }
         
         
-        else if ( input[*here+1] == '\\' && isgraph(input[*here+2]) != 0) {
+        else if ( input[*here+1] == '\\' ) {
             
             return SFS_CHARACTER;
         }

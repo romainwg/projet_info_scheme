@@ -53,40 +53,28 @@ object read_atom_chaine(char *input, uint *here){
     
     object atom = NULL;
     
-    char *chaine = malloc( 100 );
+    char chaine[256];
     
     chaine[0]='\"';
     
     int i=1;
-    int current_here = (*here)+1;
+    (*here) = (*here)+1;
     
-    if ( input[current_here] == '\"' ) {
+    if ( input[*here] == '\"' ) {
         
         return NULL;
     }
     
-    while ( input[current_here] != '\"' || !input[current_here] ) {
+    while ( input[*here] != '\"') {
         
-        chaine[i]=input[current_here];
-        current_here++;
+        chaine[i]=input[*here];
+        (*here)++;
         i++;
     }
     
     chaine[i]='\"';
     
-    if ( input[current_here] != '\"' ) {
-        
-        WARNING_MSG("TYPE_ERROR : not a finished quote");
-    }
-    
-    if ( chaine == NULL ) {
-        
-        WARNING_MSG("TYPE_ERROR : not a string");
-        return NULL;
-        
-    }
-    
-    *here = current_here+1;
+    (*here)++;
     
     atom = make_string(chaine);
     
@@ -102,23 +90,88 @@ object read_atom_character(char *input,uint *here){
     
     object atom = NULL;
 
-    char* character = malloc ( 100 );
+    char character='\0';
     
-    character[0]='#';
-    character[1]='\\';
+    int i=1;
     
-    int i=2;
-    int current_here = (*here)+2;
+    (*here) = (*here) + 2;
     
-    while ( isgraph(input[current_here]) != 0 ) {
+    if ( input[*here] == 'n' ) {
         
-        character[i]=input[current_here];
         
-        current_here++;
-        i++;
+        char ch1[7];
+        
+        (*here)++;
+        
+        if ( isspace(input[*here]) != 0 || iscntrl(input[*here]) != 0 || input[*here] == ')' || input[*here] == '(' ) {
+            
+            character = 'n';
+            atom = make_character(character);
+            return atom;
+        }
+        
+        ch1[0] = 'n';
+        
+        while ( i<7 ) {
+                
+            ch1[i]=input[*here];
+            
+            (*here)++;
+            i++;
+        }
+        
+        DEBUG_MSG("newline : %s",ch1);
+            
+        if ( strncmp (ch1,"newline",7) == 0 ) {
+            
+            character = '\n';
+        }
+            
+        else {
+            WARNING_MSG("Error read_atom_character : not a character");
+            return NULL;
+        }
     }
     
-    *here = current_here;
+    else if ( input[*here] == 's' ) {
+        
+        (*here)++;
+        
+        if ( isspace(input[*here]) != 0 || iscntrl(input[*here]) != 0 || input[*here] == ')' || input[*here] == '(' ) {
+            
+            character = 's';
+            atom = make_character(character);
+            return atom;
+        }
+        
+        char ch2[5];
+        
+        ch2[0] = 's';
+        
+        while ( i<5 ) {
+            
+            ch2[i]=input[*here];
+
+            (*here)++;
+            i++;
+        }
+        
+        if ( strncmp(ch2,"space",5) == 0 ) {
+            
+            character = ' ';
+        }
+        
+        else {
+            WARNING_MSG("Error read_atom_character : not a character");
+            return NULL;
+        }
+    }
+    
+    else if ( isspace(input[*here+1]) != 0 || input[*here+1] != ')' || input[*here+1] != '(' ) {
+        
+        character = input[*here];
+        (*here)++;
+    }
     
     atom = make_character(character);
     
@@ -143,9 +196,20 @@ object read_atom_boolean(char *input, uint *here){
     
     *here = *here + 2;
     
-    atom = make_boolean(boolean);
+    if ( strcmp("#t",boolean) == 0 ) {
+        
+        atom = make_boolean ( TRUE );
+        
+    }
     
+    if ( strcmp("#f",boolean) == 0 ) {
+        
+        atom = make_boolean ( FALSE );
+    
+    }
+
     return atom;
+
 }
 
 object read_atom_symbol(char *input, uint *here){
@@ -155,7 +219,7 @@ object read_atom_symbol(char *input, uint *here){
     int i=0;
     int current_here = *here;
     
-    char* symbol = malloc ( 100 );
+    char symbol[256];
     
     while ( isalpha(input[current_here]) != 0 || is_special_initial(input[current_here]) != 0 ) {
         

@@ -25,7 +25,7 @@ typedef struct object_t {
     union {
 
         num              number;
-        string           character;
+        char          character;
         string           string;
         string           symbol;
 
@@ -46,8 +46,8 @@ object make_nil         (   void            );
 object make_pair        (   void            );
 object make_integer     (   int valeur      );
 object make_string      (   char* chaine    );
-object make_character   (   char* character );
-object make_boolean     (   char* boolean   );
+object make_character   (   char character  );
+object make_boolean     (   int b           );
 object make_symbol      (   char* symbol    );
 
 

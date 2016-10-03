@@ -20,8 +20,8 @@ extern "C" {
 #include "notify.h"
 
 
-#define STRLEN       256
-#define BIGSTRING 65536
+#define STRLEN      256
+#define BIGSTRING   65536
 
 
 #define TRUE    1

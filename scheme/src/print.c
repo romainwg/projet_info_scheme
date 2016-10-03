@@ -21,21 +21,28 @@ void sfs_print_atom( object o ) {
             break;
             
         case SFS_BOOLEAN :
-            
-            printf("%s",o->this.symbol);
+            if (o->this.special == true ) {
+                
+                printf("#t");
+            }
+            if (o->this.special == false ) {
+                
+                printf("#f");
+            }
             break;
             
         case SFS_CHARACTER :
             
-            /* if ( strcmp("#\\newline",o->this.character) == 0) {
-                printf("\n");
+            if ( '\n' == o->this.character ) {
+                printf("#\\newline");
             }
-            else if ( strcmp("#\\space",o->this.character) == 0) {
-                printf(" ");
-            } */
-            /* else { */
-                printf("%s",o->this.character);
-            /* } */
+            else if ( ' ' == o->this.character ) {
+                printf("#\\space");
+            } 
+                
+            else {
+                printf("#\\%c",o->this.character);
+            }
             break;
             
         case SFS_STRING :
