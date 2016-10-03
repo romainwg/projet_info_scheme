@@ -103,12 +103,12 @@ object make_boolean ( int b ) {
     return NULL;
 }
 
-object make_symbol ( char* symbol ) {
+object make_symbol ( char* symbol , int i ) {
     
     object o = NULL;
     o = make_object(SFS_SYMBOL);
     
-    strcpy(o->this.symbol,symbol);
+    strncpy(o->this.symbol,symbol,i);
     
     return o;
 }

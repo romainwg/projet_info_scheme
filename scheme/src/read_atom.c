@@ -71,6 +71,10 @@ object read_atom_chaine(char *input, uint *here){
     
     while ( input[*here] != '\"') {
         
+        if ( input[*here] == '\\' && input[*here+1] == '\"') {
+            (*here)++;
+        }
+        
         chaine[i]=input[*here];
         (*here)++;
         i++;
@@ -225,7 +229,7 @@ object read_atom_symbol(char *input, uint *here){
     
     char symbol[256];
     
-    while ( isalpha(input[current_here]) != 0 || is_special_initial(input[current_here]) != 0 ) {
+    while ( isalnum(input[current_here]) != 0 || is_special_initial(input[current_here]) != 0 || input[current_here] == '+' || input[current_here] == '-' ) {
         
         symbol[i]=input[current_here];
         
@@ -233,9 +237,11 @@ object read_atom_symbol(char *input, uint *here){
         i++;
     }
     
+    DEBUG_MSG("rasym : symbol %s",symbol);
+    
     *here = current_here;
     
-    atom = make_symbol(symbol);
+    atom = make_symbol(symbol,i);
     
     return atom;
 }
