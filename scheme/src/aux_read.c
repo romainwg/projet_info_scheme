@@ -18,6 +18,33 @@ void SpaceCancel( char *input, uint *here ) {
     }
 }
 
+<<<<<<< HEAD
+=======
+/* RECHERCHE FIN D'ATOM */
+
+int is_end_atom ( char input_char ) {
+    
+    if ( isspace(input_char) != 0 || iscntrl(input_char) != 0 || input_char == '(' || input_char == ')') {
+        return 1;
+    }
+    
+    else {
+        return 0;
+    }
+}
+
+int is_not_end_atom( char input_char ) {
+    
+    if ( isspace(input_char) == 0 || iscntrl(input_char) == 0 || input_char != '(' || input_char != ')') {
+        return 1;
+    }
+    
+    else {
+        return 0;
+    }
+}
+
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
 
 /* RECHERCHE D'UN SPECIAL INITIAL */
 

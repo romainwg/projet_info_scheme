@@ -20,6 +20,14 @@
 
 void SpaceCancel        ( char *input, uint *here   );
 
+<<<<<<< HEAD
+=======
+    /* Recherche des fins d'atomes */
+
+int is_end_atom         ( char input_char           );
+int is_not_end_atom     ( char input_char           );
+
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
     
     /* vérification d'un special initial */
     

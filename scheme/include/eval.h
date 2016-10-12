@@ -17,7 +17,10 @@ extern "C" {
 
 
 #include "object.h"
+<<<<<<< HEAD
 #include "aux_eval.h"
+=======
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
 
 object sfs_eval( object );
 

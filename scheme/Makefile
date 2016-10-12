@@ -15,7 +15,11 @@ INCLUDE=-I$(INCDIR)
 
 # Pour activer les sorties INFO_MSG, ajouter -DVERBOSE aux CFLAGS 
 CFLAGS=-Wall -ansi $(INCLUDE)
+<<<<<<< HEAD
 LFLAGS=-lreadline -lm
+=======
+LFLAGS=-lm
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
 
 CFLAGS_DBG=$(CFLAGS) -g -DDEBUG -Wall
 CFLAGS_RLS=$(CFLAGS)

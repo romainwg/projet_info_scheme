@@ -10,11 +10,15 @@
 
 #include "eval.h"
 
+<<<<<<< HEAD
 
 object sfs_eval( object input ) {
     
 
     
+=======
+object sfs_eval( object input ) {
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
 
     return input;
 }

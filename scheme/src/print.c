@@ -66,10 +66,13 @@ void sfs_print_pair( object o , uint *root) {
     
     sfs_print( (o->this.pair).car , root);
     
+<<<<<<< HEAD
     if ( (o->this.pair).car->type == SFS_NIL ) {
         printf("()");
     }
     
+=======
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
     if ( (o->this.pair).cdr->type != SFS_NIL ) {
         printf(" ");
     }
@@ -90,7 +93,14 @@ void sfs_print( object o , uint* root ) {
         
         if (*root == 1) {
             
+<<<<<<< HEAD
             printf("(");
+=======
+            if (o->type == SFS_NIL) {
+                printf("()");
+            }
+            else printf("(");
+>>>>>>> d0088e3e26bc864bf24df0b41fa994c2c988a57b
             
             *root = 0;
             
